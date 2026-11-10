@@ -1,16 +1,21 @@
 def carregar_grafo(caminho):
+ # Dicionário principal que vai guardar o mapa: { "ORIGEM": [("DESTINO", PESO), ...] }
     grafo = {}
     with open(caminho, "r", encoding="utf-8") as arq:
         for linha in arq:
+            # Ignora linhas em branco para não dar erro de split
             if not linha.strip():
                 continue
+                # Pega os valores da linha: origem (a), destino (b) e o peso (distância em metros)
             a, b, peso = linha.split()
             peso = int(peso)
+            # Como o corredor é de mão dupla, adiciona a rota nos dois sentidos
             grafo.setdefault(a, []).append((b, peso))
             grafo.setdefault(b, []).append((a, peso))
     return grafo
 
 if __name__ == "__main__":
+    # Teste rápido direto no terminal para ver se o grafo carregou direito
     grafo = carregar_grafo("arestas.txt")
     print(f"Total de portas: {len(grafo)}")
     print(f"Portas carregadas: {list(grafo.keys())}")
